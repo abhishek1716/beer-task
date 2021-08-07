@@ -1,0 +1,53 @@
+<mat-card>
+  <ng-container *ngIf="randomBeer; else Loading">
+    <ng-container
+      *ngIf="randomBeer?.name && randomBeer?.description; else notEnoughData"
+    >
+      <mat-card-header>
+        <mat-card-title>{{ randomBeer?.name }}</mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <div class="left-side">
+          <ng-container *ngIf="randomBeer?.image_url; else defaultImage">
+            <img mat-card-image src="{{ randomBeer?.image_url }}" />
+          </ng-container>
+          <ng-template #defaultImage>
+            <img mat-card-image src="../../../../assets/default_beer.jpg" />
+          </ng-template>
+        </div>
+        <div class="center">
+          <p>
+            {{ randomBeer?.description }}
+          </p>
+        </div>
+
+        <div class="right-side">
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="getAnotherBeer('alcoholic')"
+          >
+            Another Beer
+          </button>
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="getAnotherBeer('nonAlcoholic')"
+          >
+            Random Non Alcoholic Beer
+          </button>
+        </div>
+      </mat-card-content>
+    </ng-container>
+    <ng-template #notEnoughData>
+      <div class="no-data">
+        <h3>Not Enough data to display Beer.</h3>
+      </div>
+    </ng-template>
+  </ng-container>
+  <ng-template #Loading>
+    <div class="spinner">
+      <mat-spinner></mat-spinner>
+    </div>
+  </ng-template>
+</mat-card>

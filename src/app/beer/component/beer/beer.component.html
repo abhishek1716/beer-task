@@ -1,0 +1,15 @@
+<style>
+  .container {
+    margin: 24px;
+  }
+</style>
+<mat-toolbar>
+  <span>Beer Info</span>
+</mat-toolbar>
+<div class="container">
+  <app-beer-card
+    [randomBeer]="beer"
+    (getRandomBeer)="getRandomBeer($event)"
+  ></app-beer-card>
+  <app-beer-search></app-beer-search>
+</div>

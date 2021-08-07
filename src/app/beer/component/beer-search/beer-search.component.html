@@ -1,0 +1,74 @@
+<div class="search">
+  <form [formGroup]="beerSearchForm" (ngSubmit)="submitForm(beerSearchForm)">
+    <div class="form-field flex-column">
+      <mat-form-field appearance="outline">
+        <mat-label>Search</mat-label>
+        <input
+          matInput
+          placeholder="Search"
+          formControlName="search"
+          name="search"
+        />
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+      <span
+        class="form-error"
+        *ngIf="
+          !beerSearchForm.valid && beerSearchForm.get('search').errors.pattern
+        "
+        >This must only contain letters, numbers, hyphens and spaces</span
+      >
+    </div>
+    <div class="form-field">
+      <mat-radio-group formControlName="paramType" name="paramType">
+        <mat-radio-button value="beer_name">By name</mat-radio-button>
+        <mat-radio-button value="beer_description"
+          >By description</mat-radio-button
+        >
+      </mat-radio-group>
+    </div>
+    <div class="submit-btn">
+      <button
+        mat-raised-button
+        color="secondary"
+        [disabled]="!beerSearchForm.valid"
+      >
+        Search
+      </button>
+    </div>
+  </form>
+  <div class="search-result" *ngIf="isSearchCompleted">
+    <h2>Search Result:</h2>
+    <ng-container
+      *ngIf="resultedBeer && resultedBeer.length !== 0; else noResult"
+    >
+      <div class="data">
+        <mat-list>
+          <mat-list-item *ngFor="let beer of resultedBeer">
+            <div class="image">
+              <ng-container *ngIf="beer?.image_url; else defaultImage">
+                <img src="{{ beer?.image_url }}" />
+              </ng-container>
+              <ng-template #defaultImage>
+                <img src="../../../../assets/default_beer.jpg" />
+              </ng-template>
+            </div>
+            <div class="content">
+              <div class="beerName">
+                <h3>{{ beer.name }}</h3>
+              </div>
+              <div class="description">
+                <p>{{ beer.description | abbreviated }}</p>
+              </div>
+            </div>
+
+            <mat-divider></mat-divider>
+          </mat-list-item>
+        </mat-list>
+      </div>
+    </ng-container>
+    <ng-template #noResult>
+      <h3>No Data found for {{ beerSearchForm.get("search").value }}</h3>
+    </ng-template>
+  </div>
+</div>
